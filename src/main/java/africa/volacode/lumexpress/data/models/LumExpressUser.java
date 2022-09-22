@@ -11,4 +11,5 @@ public class LumExpressUser {
     private  String email;
     private  String password;
     private String phoneNumber;
+    private String imageUrl;
 }

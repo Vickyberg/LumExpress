@@ -19,4 +19,5 @@ public class Customer extends LumExpressUser {
     private Cart cart;
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Address> addresses;
+
 }
