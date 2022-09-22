@@ -12,11 +12,11 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Seller {
+public class Seller extends LumExpressUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private  Long id;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Store store;
 
 }
