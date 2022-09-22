@@ -1,16 +1,21 @@
 package africa.volacode.lumexpress.data.models;
 
-import jdk.jfr.Category;
 
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Stream;
 
+
+@Entity
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name ;
     private BigDecimal price;
     private int quantity;
+    @ElementCollection
     private List<Category> category;
     private String imageUrl;
 
