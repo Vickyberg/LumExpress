@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@ToString
 @Builder
 public class Cart {
     @Id

@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -14,6 +15,7 @@ import java.util.List;
 @Getter
 @Builder
 @Entity
+@ToString
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,7 +24,7 @@ public class Product {
     private BigDecimal price;
     private int quantity;
     @ElementCollection
-    private List<Category> category;
+    private List<Category> categories = new ArrayList<>();
     private String imageUrl;
 
 }

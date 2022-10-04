@@ -15,14 +15,9 @@ class CartServiceImplTest {
 
     @Autowired
     private  CartService cartService;
+
     @BeforeEach
     void setUp() {
     }
 
-    @Test
-    @DisplayName("test that cart can be created")
-    void createCartTest() {
-        Cart cart = cartService.create();
-        assertThat(cart).isNotNull();
-    }
 }

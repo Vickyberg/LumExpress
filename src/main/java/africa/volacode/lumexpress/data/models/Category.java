@@ -8,5 +8,6 @@ public enum Category {
     ELECTRONICS,
     FOOD,
     FURNITURE,
-    GAMES
+    GAMES,
+    BEVERAGES
 }
