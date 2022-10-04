@@ -3,8 +3,11 @@ package africa.volacode.lumexpress.data.models;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.MappedSuperclass;
+
 @Getter
 @Setter
+@MappedSuperclass
 public class LumExpressUser {
     private String firstName;
     private String lastName;
