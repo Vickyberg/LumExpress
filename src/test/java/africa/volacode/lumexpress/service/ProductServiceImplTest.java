@@ -6,6 +6,14 @@ import africa.volacode.lumexpress.data.dtos.request.UpdateProductRequest;
 import africa.volacode.lumexpress.data.dtos.response.AddProductResponse;
 import africa.volacode.lumexpress.data.dtos.response.UpdateProductResponse;
 import africa.volacode.lumexpress.data.models.Product;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jackson.jsonpointer.JsonPointer;
+import com.github.fge.jackson.jsonpointer.JsonPointerException;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
+import com.github.fge.jsonpatch.RemoveOperation;
+import com.github.fge.jsonpatch.ReplaceOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +28,7 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -59,15 +68,27 @@ class ProductServiceImplTest {
         assertThat(response).isNotNull();
         assertThat(response.getProductId()).isGreaterThan(0L);
         assertThat(response.getCode()).isEqualTo(201);
+        assertThat(response.getMessage()).isNotNull();
     }
 
     @Test
-    void updateProductDetailsTest() {
+    void updateProductDetailsTest() throws JsonPointerException, IOException, JsonPatchException {
 
-        UpdateProductRequest  updateRequest = buildUpdateRequest();
-        UpdateProductResponse updateResponse = productService.updateProductDetails(updateRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        UpdateProductResponse updateResponse = null;
+      try {
+          JsonNode value = mapper.readTree("\"eggs\"");
+          JsonPatch patch = new JsonPatch(List.of(new ReplaceOperation(
+                  new JsonPointer("/name"),value
+          )));
+   updateResponse = productService.updateProductDetails(1L,patch);
+      }catch (Exception e){
+          e.printStackTrace();
+      }
+
         assertThat(updateResponse).isNotNull();
-        assertThat(updateResponse.getStatusCode()).isEqualTo(201);
+        assertThat(updateResponse.getStatusCode()).isEqualTo(200);
+        assertThat(productService.getProductById(1L).getName()).isEqualTo("eggs");
     }
 
     private UpdateProductRequest buildUpdateRequest() {

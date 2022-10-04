@@ -11,6 +11,10 @@ import africa.volacode.lumexpress.data.repository.ProductRepository;
 import africa.volacode.lumexpress.exception.ProductNotFoundException;
 import africa.volacode.lumexpress.service.cloud.CloudService;
 import com.cloudinary.utils.ObjectUtils;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -32,6 +36,7 @@ public class ProductServiceImpl implements ProductService{
     private final ProductRepository productRepository;
     private final ModelMapper mapper = new ModelMapper();
     private final CloudService cloudService;
+    private   ObjectMapper objectMapper = new ObjectMapper();
     @Override
     public AddProductResponse addProduct(AddProductRequest request) throws IOException {
        Product product = mapper.map(request, Product.class);
@@ -52,13 +57,47 @@ public class ProductServiceImpl implements ProductService{
                  .build();    }
 
     @Override
-    public UpdateProductResponse updateProductDetails(UpdateProductRequest request) {
-       var foundProduct = productRepository.findById(request.getProductId()).orElseThrow(() -> new ProductNotFoundException(
-               String.format("product with id %d not found", request.getProductId())
-       ));
+    public UpdateProductResponse updateProductDetails(Long productId, JsonPatch patch) throws JsonPatchException {
 
-        return null;
+        //find product
+       var foundProduct = productRepository.findById(productId).orElseThrow(() -> new ProductNotFoundException(
+               String.format("product with id %d not found", productId)
+       ));
+       Product updatedProduct = applyPatchToProduct(patch,foundProduct);
+       //save updated Product
+        var savedProduct = productRepository.save(updatedProduct);
+        return buildUpdateResponse(savedProduct);
+
+
     }
+    private Product applyPatchToProduct(JsonPatch patch,Product foundProduct){
+        //convert found product to json mode
+        var productNode = objectMapper.convertValue(foundProduct, JsonNode.class);
+        //apply patch to productNode
+        JsonNode patchedProductNode;
+        try {
+            patchedProductNode = patch.apply(productNode);
+            //convert patchedNode to product object
+            var updatedProduct = objectMapper.
+                    readValue(objectMapper.writeValueAsBytes(patchedProductNode),Product.class);
+            return updatedProduct;
+        }catch (IOException | JsonPatchException exception){
+            exception.printStackTrace();
+            return null;
+        }
+
+    }
+
+    private  static  UpdateProductResponse buildUpdateResponse(Product savedProduct){
+        return UpdateProductResponse.builder()
+                .productName(savedProduct.getName())
+                .price(savedProduct.getPrice())
+                .message("update successful")
+                .statusCode(200)
+                .build();
+    }
+
+
 
     @Override
     public Product getProductById(Long id) {
