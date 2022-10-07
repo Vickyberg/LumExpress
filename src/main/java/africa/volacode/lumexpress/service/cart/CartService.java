@@ -1,4 +1,4 @@
-package africa.volacode.lumexpress.service;
+package africa.volacode.lumexpress.service.cart;
 
 import africa.volacode.lumexpress.data.models.Cart;
 

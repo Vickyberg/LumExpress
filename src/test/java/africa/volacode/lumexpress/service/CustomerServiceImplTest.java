@@ -2,6 +2,7 @@ package africa.volacode.lumexpress.service;
 
 import africa.volacode.lumexpress.data.dtos.request.CustomerRegistrationRequest;
 import africa.volacode.lumexpress.data.dtos.response.CustomerRegistrationResponse;
+import africa.volacode.lumexpress.service.customer.CustomerService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 class CustomerServiceImplTest {
 

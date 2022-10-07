@@ -1,8 +1,7 @@
-package africa.volacode.lumexpress.service;
+package africa.volacode.lumexpress.service.product;
 
 import africa.volacode.lumexpress.data.dtos.request.AddProductRequest;
 import africa.volacode.lumexpress.data.dtos.request.GetAllItemsRequest;
-import africa.volacode.lumexpress.data.dtos.request.UpdateProductRequest;
 import africa.volacode.lumexpress.data.dtos.response.AddProductResponse;
 import africa.volacode.lumexpress.data.dtos.response.UpdateProductResponse;
 import africa.volacode.lumexpress.data.models.Category;
@@ -24,9 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -78,8 +75,7 @@ public class ProductServiceImpl implements ProductService{
         try {
             patchedProductNode = patch.apply(productNode);
             //convert patchedNode to product object
-            var updatedProduct = objectMapper.
-                    readValue(objectMapper.writeValueAsBytes(patchedProductNode),Product.class);
+            var updatedProduct = objectMapper.readValue(objectMapper.writeValueAsBytes(patchedProductNode),Product.class);
             return updatedProduct;
         }catch (IOException | JsonPatchException exception){
             exception.printStackTrace();

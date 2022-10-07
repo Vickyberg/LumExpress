@@ -1,6 +1,5 @@
-package africa.volacode.lumexpress.service;
+package africa.volacode.lumexpress.service.cart;
 
-import africa.volacode.lumexpress.data.models.Cart;
 import africa.volacode.lumexpress.data.repository.CartRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -6,13 +6,13 @@ import africa.volacode.lumexpress.data.dtos.request.UpdateProductRequest;
 import africa.volacode.lumexpress.data.dtos.response.AddProductResponse;
 import africa.volacode.lumexpress.data.dtos.response.UpdateProductResponse;
 import africa.volacode.lumexpress.data.models.Product;
+import africa.volacode.lumexpress.service.product.ProductService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
-import com.github.fge.jsonpatch.RemoveOperation;
 import com.github.fge.jsonpatch.ReplaceOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -86,7 +86,7 @@ class ProductServiceImplTest {
           e.printStackTrace();
       }
 
-        assertThat(updateResponse).isNotNull();
+                    assertThat(updateResponse).isNotNull();
         assertThat(updateResponse.getStatusCode()).isEqualTo(200);
         assertThat(productService.getProductById(1L).getName()).isEqualTo("eggs");
     }

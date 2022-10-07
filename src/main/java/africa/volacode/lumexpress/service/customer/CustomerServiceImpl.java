@@ -1,4 +1,4 @@
-package africa.volacode.lumexpress.service;
+package africa.volacode.lumexpress.service.customer;
 
 import africa.volacode.lumexpress.data.dtos.request.CustomerRegistrationRequest;
 import africa.volacode.lumexpress.data.dtos.request.LoginRequest;
@@ -9,7 +9,6 @@ import africa.volacode.lumexpress.data.models.Address;
 import africa.volacode.lumexpress.data.models.Cart;
 import africa.volacode.lumexpress.data.models.Customer;
 import africa.volacode.lumexpress.data.repository.CustomerRepository;
-import com.cloudinary.Cloudinary;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;

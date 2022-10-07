@@ -1,4 +1,4 @@
-package africa.volacode.lumexpress.service;
+package africa.volacode.lumexpress.service.customer;
 
 import africa.volacode.lumexpress.data.dtos.request.CustomerRegistrationRequest;
 import africa.volacode.lumexpress.data.dtos.request.LoginRequest;

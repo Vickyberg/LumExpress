@@ -1,4 +1,4 @@
-package africa.volacode.lumexpress.service;
+package africa.volacode.lumexpress.service.product;
 
 import africa.volacode.lumexpress.data.dtos.request.AddProductRequest;
 import africa.volacode.lumexpress.data.dtos.request.GetAllItemsRequest;
