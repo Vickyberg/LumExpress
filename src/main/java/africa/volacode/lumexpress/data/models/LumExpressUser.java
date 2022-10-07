@@ -15,4 +15,5 @@ public class LumExpressUser {
     private  String password;
     private String phoneNumber;
     private String imageUrl;
+    private boolean isEnabled;
 }
