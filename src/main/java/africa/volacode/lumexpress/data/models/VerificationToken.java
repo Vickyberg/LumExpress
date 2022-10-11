@@ -1,9 +1,6 @@
 package africa.volacode.lumexpress.data.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,12 +14,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
+@ToString
 public class VerificationToken {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Setter(AccessLevel.PRIVATE)
     private Long id;
     private String token;
     private String userEmail;
-    private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime expiresAt= createdAt.plusMinutes(5);
+    private LocalDateTime createdAt;
+    private LocalDateTime expiresAt;
 }
