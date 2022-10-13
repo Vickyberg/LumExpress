@@ -11,6 +11,7 @@ import africa.volacode.lumexpress.data.models.Cart;
 import africa.volacode.lumexpress.data.models.Customer;
 import africa.volacode.lumexpress.data.models.VerificationToken;
 import africa.volacode.lumexpress.data.repository.CustomerRepository;
+import africa.volacode.lumexpress.exception.UserNotFoundException;
 import africa.volacode.lumexpress.service.notifications.EmailNotificationService;
 import africa.volacode.lumexpress.service.token.VerificationTokenService;
 import lombok.AllArgsConstructor;
@@ -42,7 +43,7 @@ public class CustomerServiceImpl implements CustomerService{
         Customer savedCustomer = customerRepository.save(customer);
         log.info("customer to be saved in db :: {}",savedCustomer);
         var token = verificationTokenService.createToken(savedCustomer.getEmail());
-        emailNotificationService.sendHtmlMail(buildEmailNotificationRequest(token));
+        emailNotificationService.sendHtmlMail(buildEmailNotificationRequest(token, savedCustomer.getFirstName()));
         return registrationResponseBuilder(savedCustomer);
     }
 
@@ -52,12 +53,13 @@ public class CustomerServiceImpl implements CustomerService{
         customer.getAddresses().add(customerAddress);
     }
 
-    private EmailNotificationRequest buildEmailNotificationRequest(VerificationToken verificationToken) {
-        var email = getEmailTemplate();
+    private EmailNotificationRequest buildEmailNotificationRequest(VerificationToken verificationToken, String customerName) {
+        var message = getEmailTemplate();
         String mail = null;
-        if(email != null){
-            mail= String.format(email,verificationToken.getUserEmail(),"http://localhost:8080//"
-                    + verificationToken.getToken());
+        if(message != null){
+            var verificationUrl = "http://localhost:8080//api//v1//customer//verify//" + verificationToken.getToken();
+            mail= String.format(message,customerName,verificationUrl);
+            log.info("mailed url-->{}",verificationUrl);
         }
         return EmailNotificationRequest.builder()
                 .userEmail(verificationToken.getUserEmail())
@@ -85,7 +87,11 @@ public class CustomerServiceImpl implements CustomerService{
 
 
     @Override
-    public String completeProfile(UpdateCustomerDetails updateCustomerDetails) {
+    public String updateProfile(UpdateCustomerDetails updateCustomerDetails) {
+     Customer customerToUpdate =   customerRepository.findById(updateCustomerDetails.getCustomerId())
+                .orElseThrow(()->new UserNotFoundException(
+                        String.format("Customer with the id %d, not found",
+                                updateCustomerDetails.getCustomerId())));
         return null;
     }
 }

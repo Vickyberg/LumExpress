@@ -1,8 +1,10 @@
 package africa.volacode.lumexpress.service;
 
 import africa.volacode.lumexpress.data.dtos.request.CustomerRegistrationRequest;
+import africa.volacode.lumexpress.data.dtos.request.UpdateCustomerDetails;
 import africa.volacode.lumexpress.data.dtos.response.CustomerRegistrationResponse;
 import africa.volacode.lumexpress.service.customer.CustomerService;
+import africa.volacode.lumexpress.util.LumExpressUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,6 +51,17 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void completeProfile() {
+    void updateProfileTest() {
+        CustomerRegistrationResponse customerRegistrationResponse = customerService.register(request);
+        UpdateCustomerDetails details =UpdateCustomerDetails
+                .builder()
+                .customerId(customerRegistrationResponse.getUserId())
+                .imageUrl(LumExpressUtils.getMockCloudinaryImageUrl())
+                .lastName("test lastName")
+                .phoneNumber("12334567344")
+                .build();
+        var updateResponse = customerService.updateProfile(details);
+        assertThat(updateResponse).isNotNull();
+        assertThat(updateResponse.contains("success")).isTrue();
     }
 }
