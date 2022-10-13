@@ -1,6 +1,7 @@
 package africa.volacode.lumexpress.data.models;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,6 +18,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToMany(fetch = FetchType.EAGER)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Item> items;
 
 }

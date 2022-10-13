@@ -5,6 +5,7 @@ import africa.volacode.lumexpress.data.dtos.request.UpdateCustomerDetails;
 import africa.volacode.lumexpress.data.dtos.response.CustomerRegistrationResponse;
 import africa.volacode.lumexpress.service.customer.CustomerService;
 import africa.volacode.lumexpress.util.LumExpressUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@Slf4j
 class CustomerServiceImplTest {
 
 
@@ -58,10 +60,11 @@ class CustomerServiceImplTest {
                 .customerId(customerRegistrationResponse.getUserId())
                 .imageUrl(LumExpressUtils.getMockCloudinaryImageUrl())
                 .lastName("test lastName")
-                .phoneNumber("12334567344")
+                .phoneNumber("12334567344").city("lagos").state("lagos state").buildingNumber(23).street("semicolon street")
                 .build();
-        var updateResponse = customerService.updateProfile(details);
-        assertThat(updateResponse).isNotNull();
-        assertThat(updateResponse.contains("success")).isTrue();
+        var updatedCustomer = customerService.updateProfile(details);
+        log.info("updated customer -->{}",updatedCustomer);
+        assertThat(updatedCustomer).isNotNull();
+        assertThat(updatedCustomer.contains("success")).isTrue();
     }
 }

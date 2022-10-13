@@ -16,4 +16,5 @@ public class Item {
     private  Long id;
     @OneToOne(fetch = FetchType.EAGER)
     private Product products;
+    private int quantity;
 }

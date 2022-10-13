@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -92,6 +94,20 @@ public class CustomerServiceImpl implements CustomerService{
                 .orElseThrow(()->new UserNotFoundException(
                         String.format("Customer with the id %d, not found",
                                 updateCustomerDetails.getCustomerId())));
-        return null;
+     mapper.map(updateCustomerDetails,customerToUpdate);
+     Set<Address> customerAddressList = customerToUpdate.getAddresses();
+     Optional<Address> foundAddress = customerToUpdate.getAddresses().stream().findFirst();
+     if(foundAddress.isPresent()) applyAddressUpdate(foundAddress.get(),updateCustomerDetails);
+     customerToUpdate.getAddresses().add(foundAddress.get());
+     Customer updatedCustomer = customerRepository.save(customerToUpdate);
+
+        return String.format("%s details updated successful",updatedCustomer.getFirstName());
+    }
+
+    private void applyAddressUpdate(Address address, UpdateCustomerDetails updateCustomerDetails) {
+        address.setBuildingNumber(updateCustomerDetails.getBuildingNumber());
+        address.setCity(updateCustomerDetails.getCity());
+        address.setStreet(updateCustomerDetails.getStreet());
+        address.setState(updateCustomerDetails.getState());
     }
 }
