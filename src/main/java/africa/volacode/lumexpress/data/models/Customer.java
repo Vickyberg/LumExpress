@@ -11,9 +11,9 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
 @ToString
+@Builder
 public class Customer extends LumExpressUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

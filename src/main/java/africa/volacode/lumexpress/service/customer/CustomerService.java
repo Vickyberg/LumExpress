@@ -11,6 +11,5 @@ import africa.volacode.lumexpress.data.dtos.response.LoginResponse;
 
 public interface CustomerService {
     CustomerRegistrationResponse register(CustomerRegistrationRequest registerRequest);
-    LoginResponse login(LoginRequest loginRequest);
     String completeProfile(UpdateCustomerDetails updateCustomerDetails);
 }

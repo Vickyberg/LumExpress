@@ -25,7 +25,7 @@ class CustomerServiceImplTest {
     void setUp() {
         request = CustomerRegistrationRequest
                 .builder()
-                .email("olamide@gmail.com")
+                .email("akinnusivictor098@gmail.com")
                 .password("olamide")
                 .country("Nigeria")
                 .build();
@@ -36,7 +36,7 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void register() {
+    void registerCustomerTest() {
 
         CustomerRegistrationResponse customerRegistrationResponse =  customerService.register(request);
         assertThat(customerRegistrationResponse).isNotNull();
@@ -46,10 +46,6 @@ class CustomerServiceImplTest {
 
 
 
-    }
-
-    @Test
-    void login() {
     }
 
     @Test

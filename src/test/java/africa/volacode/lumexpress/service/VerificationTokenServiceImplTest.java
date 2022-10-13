@@ -17,16 +17,28 @@ class VerificationTokenServiceImplTest {
     @Autowired
     private VerificationTokenService verificationTokenService;
 
+    private VerificationToken verificationToken;
+
     @BeforeEach
     void setUp(){
-
+         verificationToken = verificationTokenService.createToken("test@gmail.com");
     }
 
     @Test
     void createTokenTest() {
-        VerificationToken verificationToken = verificationTokenService.createToken("test@gmail.com");
+
         log.info("token->{}",verificationToken);
         assertThat(verificationToken).isNotNull();
+        assertThat(verificationToken.getUserEmail()).isEqualTo("test@gmail.com");
         assertThat(verificationToken.getToken().length()).isEqualTo(5);
+    }
+
+    @Test
+    void isValidVerificationTokenTest(){
+     assertThat(verificationToken).isNotNull();
+     var response = verificationTokenService.isValidVerificationToken(verificationToken.getToken());
+     assertThat(response).isTrue();
+
+
     }
 }

@@ -1,13 +1,13 @@
-package africa.volacode.lumexpress.service.notifications;
+package africa.volacode.lumexpress.data.dtos.request;
 
 import lombok.*;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EmailDetails {
+public class EmailNotificationRequest {
     private String userEmail;
     private String mailContent;
 
