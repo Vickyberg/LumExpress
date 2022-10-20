@@ -4,6 +4,8 @@ import lombok.*;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -19,6 +21,7 @@ public class Cart {
     private Long id;
     @OneToMany(fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private List<Item> items;
+    private List<Item> items = new ArrayList<>();
+    private BigDecimal subTotal;
 
 }

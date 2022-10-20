@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -102,6 +103,11 @@ public class CustomerServiceImpl implements CustomerService{
      Customer updatedCustomer = customerRepository.save(customerToUpdate);
 
         return String.format("%s details updated successful",updatedCustomer.getFirstName());
+    }
+
+    @Override
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
     }
 
     private void applyAddressUpdate(Address address, UpdateCustomerDetails updateCustomerDetails) {

@@ -11,6 +11,8 @@ import africa.volacode.lumexpress.service.product.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class CartServiceImpl implements CartService{
@@ -25,10 +27,19 @@ public class CartServiceImpl implements CartService{
        Product foundProduct = productService.getProductById(cartRequest.getProductId());
        Item item = buildCartItem(foundProduct);
        cart.getItems().add(item);
-       cartRepository.save(cart);
+       Cart cartToSave = updateCartSubTotal(cart);
+      Cart savedCart = cartRepository.save(cart);
 
         return CartResponse.builder()
-                .message("item added to cart").build();
+                .message("item added to cart")
+                .cart(savedCart)
+                .build();
+    }
+
+    @Override
+    public List<Cart> getCartList() {
+        var cartList = cartRepository.findAll();
+        return cartList;
     }
 
     private Item buildCartItem(Product foundProduct) {
@@ -36,5 +47,16 @@ public class CartServiceImpl implements CartService{
                 .products(foundProduct)
                 .quantity(1)
                 .build();
+    }
+
+    private    Cart updateCartSubTotal(Cart cart){
+        cart.getItems()
+                .forEach(item -> sumCartItemPrices(cart, item));
+        return cart;
+    }
+
+    private void sumCartItemPrices(Cart cart, Item item) {
+        var itemPrice = item.getProducts().getPrice().add(cart.getSubTotal());
+        cart.setSubTotal(itemPrice.add(cart.getSubTotal()));
     }
 }
