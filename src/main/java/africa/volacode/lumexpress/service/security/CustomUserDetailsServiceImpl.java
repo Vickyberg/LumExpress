@@ -16,5 +16,6 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LumExpressUser foundUser = userService.getUserByUsername(username);
+        return new SecureUser(foundUser);
     }
 }

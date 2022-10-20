@@ -1,5 +1,6 @@
 package africa.volacode.lumexpress.service.security;
 
+import africa.volacode.lumexpress.data.models.Authority;
 import africa.volacode.lumexpress.data.models.LumExpressUser;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,31 +31,34 @@ public class SecureUser implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         user.getAuthorities().forEach(authority -> {
-            SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority()
+            addUserAuthoritiesToAuthoritiesList(authorities, authority);
         });
-        return null;
+        return authorities;
     }
 
-
+    private void addUserAuthoritiesToAuthoritiesList(List<SimpleGrantedAuthority> authorities, Authority authority) {
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority.name());
+        authorities.add(simpleGrantedAuthority);
+    }
 
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
