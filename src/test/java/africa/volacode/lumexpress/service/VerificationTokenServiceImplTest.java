@@ -1,6 +1,7 @@
 package africa.volacode.lumexpress.service;
 
 import africa.volacode.lumexpress.data.models.VerificationToken;
+import africa.volacode.lumexpress.exception.VerificationTokenException;
 import africa.volacode.lumexpress.service.token.VerificationTokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +35,7 @@ class VerificationTokenServiceImplTest {
     }
 
     @Test
-    void isValidVerificationTokenTest(){
+    void isValidVerificationTokenTest() throws VerificationTokenException {
      assertThat(verificationToken).isNotNull();
      var response = verificationTokenService.isValidVerificationToken(verificationToken.getToken());
      assertThat(response).isTrue();

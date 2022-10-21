@@ -7,6 +7,7 @@ import africa.volacode.lumexpress.data.models.Item;
 import africa.volacode.lumexpress.data.models.Product;
 import africa.volacode.lumexpress.data.repository.CartRepository;
 import africa.volacode.lumexpress.exception.CartNotFoundException;
+import africa.volacode.lumexpress.exception.ProductNotFoundException;
 import africa.volacode.lumexpress.service.product.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class CartServiceImpl implements CartService{
     private final ProductService productService;
 
     @Override
-    public CartResponse addProductToCart(CartRequest cartRequest) {
+    public CartResponse addProductToCart(CartRequest cartRequest) throws CartNotFoundException, ProductNotFoundException {
         Cart cart =cartRepository.findById(cartRequest.getCartId())
                 .orElseThrow(()->new CartNotFoundException(String.format("cart with id %d not found",cartRequest.getCartId())));
        Product foundProduct = productService.getProductById(cartRequest.getProductId());

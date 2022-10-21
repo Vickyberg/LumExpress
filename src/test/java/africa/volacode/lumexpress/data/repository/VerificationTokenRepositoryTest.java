@@ -30,7 +30,7 @@ class VerificationTokenRepositoryTest {
     }
 
     @Test
-    void findByUserEmail() {
+    void findByUserEmail() throws VerificationTokenException {
         verificationTokenRepository.save(verificationToken);
        VerificationToken foundToken =  verificationTokenRepository
                .findByUserEmail("test@gmail.com").orElseThrow(() -> new VerificationTokenException("token not found!!!"));
@@ -41,11 +41,11 @@ class VerificationTokenRepositoryTest {
     }
 
     @Test
-    void findByTokenTest() {
+    void findByTokenTest() throws VerificationTokenException {
         verificationTokenRepository.save(verificationToken);
         VerificationToken token = verificationTokenRepository.findByToken(verificationToken.getToken())
                 .orElseThrow(()-> new VerificationTokenException("token not found"));
         assertThat(token).isNotNull();
         assertThat(token.getToken()).isEqualTo("12345");
+        }
     }
-}

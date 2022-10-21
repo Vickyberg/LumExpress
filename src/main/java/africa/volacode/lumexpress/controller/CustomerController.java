@@ -1,6 +1,7 @@
 package africa.volacode.lumexpress.controller;
 
 import africa.volacode.lumexpress.data.dtos.request.CustomerRegistrationRequest;
+import africa.volacode.lumexpress.exception.LumExpressException;
 import africa.volacode.lumexpress.service.customer.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,8 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid  @RequestBody CustomerRegistrationRequest request){
-    return ResponseEntity.status(HttpStatus.CREATED).body(customerService.register(request));
+    public ResponseEntity<?> register(@Valid  @RequestBody CustomerRegistrationRequest request) throws LumExpressException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.register(request));
     }
 
     @GetMapping("/all")

@@ -4,6 +4,8 @@ import africa.volacode.lumexpress.data.dtos.request.CartRequest;
 import africa.volacode.lumexpress.data.dtos.request.GetAllItemsRequest;
 import africa.volacode.lumexpress.data.dtos.response.CartResponse;
 import africa.volacode.lumexpress.data.models.Cart;
+import africa.volacode.lumexpress.exception.CartNotFoundException;
+import africa.volacode.lumexpress.exception.ProductNotFoundException;
 import africa.volacode.lumexpress.service.cart.CartService;
 import africa.volacode.lumexpress.service.product.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +37,7 @@ class CartServiceImplTest {
 
     @Test
     @DisplayName("test that product can be added to cart")
-    void addProductToCartTest(){
+    void addProductToCartTest() throws ProductNotFoundException, CartNotFoundException {
         CartRequest cartRequest = CartRequest.builder()
                 .cartId(savedCart.getId())
                 .productId(productService

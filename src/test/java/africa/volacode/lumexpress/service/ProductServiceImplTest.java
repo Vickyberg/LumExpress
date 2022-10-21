@@ -6,6 +6,7 @@ import africa.volacode.lumexpress.data.dtos.request.UpdateProductRequest;
 import africa.volacode.lumexpress.data.dtos.response.AddProductResponse;
 import africa.volacode.lumexpress.data.dtos.response.UpdateProductResponse;
 import africa.volacode.lumexpress.data.models.Product;
+import africa.volacode.lumexpress.exception.ProductNotFoundException;
 import africa.volacode.lumexpress.service.product.ProductService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -72,7 +73,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void updateProductDetailsTest() throws JsonPointerException, IOException, JsonPatchException {
+    void updateProductDetailsTest() throws JsonPointerException, IOException, JsonPatchException, ProductNotFoundException {
 
         ObjectMapper mapper = new ObjectMapper();
         UpdateProductResponse updateResponse = null;
@@ -101,7 +102,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void getProductByIdTest()  {
+    void getProductByIdTest() throws ProductNotFoundException {
        Product foundProduct = productService.getProductById(response.getProductId());
        assertThat(foundProduct).isNotNull();
        assertThat(foundProduct.getId()).isEqualTo(response.getProductId());

@@ -11,6 +11,7 @@ import africa.volacode.lumexpress.data.models.Cart;
 import africa.volacode.lumexpress.data.models.Customer;
 import africa.volacode.lumexpress.data.models.VerificationToken;
 import africa.volacode.lumexpress.data.repository.CustomerRepository;
+import africa.volacode.lumexpress.exception.LumExpressException;
 import africa.volacode.lumexpress.exception.UserNotFoundException;
 import africa.volacode.lumexpress.service.notifications.EmailNotificationService;
 import africa.volacode.lumexpress.service.token.VerificationTokenService;
@@ -49,7 +50,12 @@ public class CustomerServiceImpl implements CustomerService{
 
 
     @Override
-    public CustomerRegistrationResponse register(CustomerRegistrationRequest registerRequest) {
+    public CustomerRegistrationResponse register(CustomerRegistrationRequest registerRequest) throws LumExpressException {
+        Optional<Customer> foundCustomer = customerRepository.findByEmail(registerRequest.getEmail());
+        if(foundCustomer.isPresent()) throw new LumExpressException(
+                String.format("Email %s has already been used ",registerRequest.getEmail())
+        );
+
         Customer customer = mapper.map(registerRequest, Customer.class);
         customer.setCart(new Cart());
         setCustomerAddress(registerRequest,customer);
@@ -103,7 +109,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 
     @Override
-    public String updateProfile(UpdateCustomerDetails updateCustomerDetails) {
+    public String updateProfile(UpdateCustomerDetails updateCustomerDetails) throws UserNotFoundException {
      Customer customerToUpdate =   customerRepository.findById(updateCustomerDetails.getCustomerId())
                 .orElseThrow(()->new UserNotFoundException(
                         String.format("Customer with the id %d, not found",

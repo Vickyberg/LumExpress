@@ -3,6 +3,8 @@ package africa.volacode.lumexpress.service;
 import africa.volacode.lumexpress.data.dtos.request.CustomerRegistrationRequest;
 import africa.volacode.lumexpress.data.dtos.request.UpdateCustomerDetails;
 import africa.volacode.lumexpress.data.dtos.response.CustomerRegistrationResponse;
+import africa.volacode.lumexpress.exception.LumExpressException;
+import africa.volacode.lumexpress.exception.UserNotFoundException;
 import africa.volacode.lumexpress.service.customer.CustomerService;
 import africa.volacode.lumexpress.util.LumExpressUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +42,7 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void registerCustomerTest() {
+    void registerCustomerTest() throws LumExpressException {
 
         CustomerRegistrationResponse customerRegistrationResponse =  customerService.register(request);
         assertThat(customerRegistrationResponse).isNotNull();
@@ -53,7 +55,7 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void updateProfileTest() {
+    void updateProfileTest() throws LumExpressException {
         CustomerRegistrationResponse customerRegistrationResponse = customerService.register(request);
         UpdateCustomerDetails details =UpdateCustomerDetails
                 .builder()
