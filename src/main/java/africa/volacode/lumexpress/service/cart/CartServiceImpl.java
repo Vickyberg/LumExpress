@@ -42,6 +42,11 @@ public class CartServiceImpl implements CartService{
         return cartList;
     }
 
+    @Override
+    public Cart save(Cart cart) {
+        return cartRepository.save(cart);
+    }
+
     private Item buildCartItem(Product foundProduct) {
         return Item.builder()
                 .products(foundProduct)
