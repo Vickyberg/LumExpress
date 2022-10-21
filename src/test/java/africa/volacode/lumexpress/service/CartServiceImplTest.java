@@ -39,10 +39,10 @@ class CartServiceImplTest {
         CartRequest cartRequest = CartRequest.builder()
                 .cartId(savedCart.getId())
                 .productId(productService
-                        .getAllProducts(new GetAllItemsRequest())
+                        .getAllProducts(new GetAllItemsRequest(1,1))
                         .getContent()
                         .get(productService
-                                .getAllProducts(new GetAllItemsRequest(10,1))
+                                .getAllProducts(new GetAllItemsRequest(1,1))
                                 .getNumberOfElements()-1).getId())
                 .build();
         CartResponse cartResponse = cartService.addProductToCart(cartRequest);

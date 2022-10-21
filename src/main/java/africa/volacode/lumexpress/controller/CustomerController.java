@@ -15,7 +15,7 @@ import javax.validation.Valid;
 public class CustomerController {
     private final CustomerService customerService;
 
-    @PostMapping()
+    @PostMapping("/register")
     public ResponseEntity<?> register(@Valid  @RequestBody CustomerRegistrationRequest request){
     return ResponseEntity.status(HttpStatus.CREATED).body(customerService.register(request));
     }

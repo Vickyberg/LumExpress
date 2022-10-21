@@ -17,6 +17,7 @@ import africa.volacode.lumexpress.service.token.VerificationTokenService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -33,9 +34,18 @@ import java.util.stream.Collectors;
 public class CustomerServiceImpl implements CustomerService{
 
     private final CustomerRepository customerRepository;
+
     private final ModelMapper mapper = new ModelMapper() ;
+
     private final EmailNotificationService emailNotificationService;
+
     private final VerificationTokenService verificationTokenService;
+
+    private final PasswordEncoder passwordEncoder;
+
+    //TODO: remove all hardcoded values, store 3rd-party secrets in environment
+
+
 
 
     @Override
@@ -43,10 +53,13 @@ public class CustomerServiceImpl implements CustomerService{
         Customer customer = mapper.map(registerRequest, Customer.class);
         customer.setCart(new Cart());
         setCustomerAddress(registerRequest,customer);
+        String encodedPassword = passwordEncoder.encode(customer.getPassword());
+        customer.setPassword(encodedPassword);
+
         Customer savedCustomer = customerRepository.save(customer);
         log.info("customer to be saved in db :: {}",savedCustomer);
-        var token = verificationTokenService.createToken(savedCustomer.getEmail());
-        emailNotificationService.sendHtmlMail(buildEmailNotificationRequest(token, savedCustomer.getFirstName()));
+//        var token = verificationTokenService.createToken(savedCustomer.getEmail());
+//        emailNotificationService.sendHtmlMail(buildEmailNotificationRequest(token, savedCustomer.getFirstName()));
         return registrationResponseBuilder(savedCustomer);
     }
 
