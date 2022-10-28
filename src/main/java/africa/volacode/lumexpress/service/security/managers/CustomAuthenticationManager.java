@@ -15,7 +15,8 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        //TODO:
-        return null;
+
+      Authentication authenticationResult =   customAuthenticationProvider.authenticate(authentication);
+      return authenticationResult;
     }
 }

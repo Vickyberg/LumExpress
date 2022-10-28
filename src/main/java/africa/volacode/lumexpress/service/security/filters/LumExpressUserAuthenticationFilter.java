@@ -4,6 +4,7 @@ import africa.volacode.lumexpress.data.models.LumExpressUser;
 import africa.volacode.lumexpress.service.security.managers.CustomAuthenticationManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import java.io.IOException;
 
 @Component
 @AllArgsConstructor
+@Slf4j
 public class LumExpressUserAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final CustomAuthenticationManager customAuthenticationManager;
@@ -31,6 +33,7 @@ public class LumExpressUserAuthenticationFilter extends UsernamePasswordAuthenti
         //TODO: 1. create an authentication object(which contains auth credentials) that isn't authenticated
         String email =request.getParameter("username");
         String password = request.getParameter("password");
+        log.info("email->{} password->{}",email,password);
         var authenticationToken = new UsernamePasswordAuthenticationToken(email,password);
 
         //TODO: 2. use AuthenticationManager to authenticate the use whose  auth  credentials are now contained within the authentication object
